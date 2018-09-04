@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import ChivilcoinContract from "./chivilcoin/build/contracts/Chivilcoin.json";
+import ChivilcoinContract from "./contracts/Chivilcoin.json";
 import getWeb3 from "./utils/getWeb3";
 import truffleContract from "truffle-contract";
 
@@ -42,7 +42,8 @@ class App extends Component {
   };
 
   setAddress = async (event) => {
-    this.state.address =  event.target.value;
+    const address =  event.target.value;
+    this.setState({address});
   }
 
   getBalance = async () => {
