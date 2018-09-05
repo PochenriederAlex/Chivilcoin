@@ -31,14 +31,19 @@ class App extends Component {
       // Get the value from the contract to prove it worked.
       const contractName = await instance.name();
 
+      const allTransferEvent = instance.Transfer({},{ fromBlock: 0, toBlock: 'latest' });
+      allTransferEvent.get((error, events) => {
+        this.setState({events});
+      });
+
       const transferEvent = instance.Transfer();
 
       transferEvent.watch((error, result)=> {
         if(error){
           alert(`The contract explode because of your transaction. Thank you. Error: ${error}`);
         } else {
-          this.addEvent(result);
           alert(`${result.args.value} Chivilcoin sent from ${result.args.from} to ${result.args.to}`);
+          this.addEvent(result);
         }
       })
 
