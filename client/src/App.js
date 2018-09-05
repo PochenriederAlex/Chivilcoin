@@ -32,6 +32,7 @@ class App extends Component {
       const contractName = await instance.name();
 
       const allTransferEvent = instance.Transfer({},{ fromBlock: 0, toBlock: 'latest' });
+
       allTransferEvent.get((error, events) => {
         this.setState({events});
       });
@@ -48,6 +49,11 @@ class App extends Component {
       })
 
       const address = accounts[0];
+
+      web3.eth.getBalance(accounts[0]).then((balance)=> {
+        const ethBalance = web3.utils.fromWei(balance, "ether");
+        this.setState({ethBalance});
+      })
       // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.
       this.setState({address,web3, accounts, contract: instance, contractName } , ()=> this.getBalance());
@@ -108,7 +114,8 @@ class App extends Component {
         </div>
         <div>
           <p>Your address: {this.state.address}</p>
-          <div>Your balance: {this.state.balance}</div>
+          <div>Your CHC balance: {this.state.balance}</div>
+          <div>Your ETH balance: {this.state.ethBalance}</div>
         </div>
         <div className='sendPanel'>
           <div className='sendInputs'>
