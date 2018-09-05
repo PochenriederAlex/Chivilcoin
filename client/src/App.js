@@ -10,7 +10,9 @@ class App extends Component {
 
   constructor(props)  {
     super(props);
-    this.setAddress = this.setAddress.bind(this);
+
+    this.setAmount = this.setAmount.bind(this);
+    this.setReceiver = this.setReceiver.bind(this);
   }
   componentDidMount = async () => {
     try {
@@ -31,7 +33,7 @@ class App extends Component {
       const address = accounts[0];
       // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.
-      this.setState({address,web3, accounts, contract: instance, contractName });
+      this.setState({address,web3, accounts, contract: instance, contractName } , ()=> this.getBalance());
     } catch (error) {
       // Catch any errors for any of the above operations.
       alert(
@@ -41,18 +43,30 @@ class App extends Component {
     }
   };
 
-  setAddress = async (event) => {
-    const address =  event.target.value;
-    this.setState({address});
+  setAmount = async (event) => {
+    const amount =  event.target.value;
+    this.setState({amount});
+  }
+
+
+  setReceiver = async (event) => {
+    const receiver =  event.target.value;
+    this.setState({receiver});
   }
 
   getBalance = async () => {
-    const {accounts, contract } = this.state;
+    const {address, contract } = this.state;
 
-    contract.balanceOf(this.state.address).then((numberBalance) => {
+    contract.balanceOf(address).then((numberBalance) => {
       const balance = numberBalance.div(10000).toString();
       this.setState({balance});
     });
+  }
+
+  sendChivilcoin = async () => {
+    const {contract, receiver, amount } = this.state;
+
+    contract.transfer(receiver, amount);
   }
 
   render() {
@@ -61,16 +75,28 @@ class App extends Component {
     }
     return (
       <div className="App">
-        <h1>Good to Go!</h1>
-        <h2>{this.state.contractName} is ready to use</h2>
-        <p>
-          This is the amazing Chivilcoin. When the Argentine Peso falls into deep shit
-          you'll still be able to use Chivilcoin and buy all the Chorizo secos you can eat.
-        </p>
-        <p>Check your balance, enter your address</p>
-        <input type='text' onChange={ this.setAddress } value={this.state.address}/>
-        <div>Your balance is: {this.state.balance}</div>
-        <button onClick={this.getBalance}> Get balance </button>
+        <div className="title">
+          <h1>{this.state.contractName}</h1>
+        </div>
+        <div className="subtitle">
+          <p>
+            This is the amazing Chivilcoin. When the Argentine Peso falls into deep shit
+            you'll still be able to use Chivilcoin to buy all the Chorizo seco you can eat.
+          </p>
+        </div>
+        <div>
+          <p>Your address: {this.state.address}</p>
+          <div>Your balance: {this.state.balance}</div>
+        </div>
+        <div className='sendPanel'>
+          <div className='sendInputs'>
+            <h3>Receiver</h3>
+            <input type='text' onChange={ this.setReceiver } value={this.state.receiver}/>
+            <h3>Amount</h3>
+            <input type='number' onChange={ this.setAmount } value={this.state.amount}/>
+            <button onClick={this.sendChivilcoin}> Send </button>
+          </div>
+        </div>
       </div>
     );
   }

@@ -1,3 +1,37 @@
 .App {
   text-align: center;
+  align-items: stretch;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.title {
+  flex-flow: row flex-start;
+  background-color: #333;
+  color: white;
+  padding: 1px 10px;
+}
+
+.subtitle {
+  background-color: #C2C2C2;
+  color: #282828;
+  padding: 1px 10px;
+}
+
+.sendPanel {
+  background-color: #C2C2C2;
+  margin: 0px 400px;
+  padding: 5px;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.sendInputs {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sendInputs input{
+  width:50%
 }

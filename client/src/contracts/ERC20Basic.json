@@ -85,9 +85,9 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "pragma solidity ^0.4.24;\n\n\n/**\n * @title ERC20Basic\n * @dev Simpler version of ERC20 interface\n * See https://github.com/ethereum/EIPs/issues/179\n */\ncontract ERC20Basic {\n  function totalSupply() public view returns (uint256);\n  function balanceOf(address _who) public view returns (uint256);\n  function transfer(address _to, uint256 _value) public returns (bool);\n  event Transfer(address indexed from, address indexed to, uint256 value);\n}\n",
-  "sourcePath": "/home/alex/Documentos/Proyectos/chivilcoin-frontend/chivilcoin/node_modules/openzeppelin-solidity/contracts/token/ERC20/ERC20Basic.sol",
+  "sourcePath": "C:\\Users\\Pocho\\Documents\\Proyectos\\Chivilcoin\\chivilcoin\\node_modules\\openzeppelin-solidity\\contracts\\token\\ERC20\\ERC20Basic.sol",
   "ast": {
-    "absolutePath": "/home/alex/Documentos/Proyectos/chivilcoin-frontend/chivilcoin/node_modules/openzeppelin-solidity/contracts/token/ERC20/ERC20Basic.sol",
+    "absolutePath": "/C/Users/Pocho/Documents/Proyectos/Chivilcoin/chivilcoin/node_modules/openzeppelin-solidity/contracts/token/ERC20/ERC20Basic.sol",
     "exportedSymbols": {
       "ERC20Basic": [
         891
@@ -472,7 +472,7 @@
     "src": "0:443:10"
   },
   "legacyAST": {
-    "absolutePath": "/home/alex/Documentos/Proyectos/chivilcoin-frontend/chivilcoin/node_modules/openzeppelin-solidity/contracts/token/ERC20/ERC20Basic.sol",
+    "absolutePath": "/C/Users/Pocho/Documents/Proyectos/Chivilcoin/chivilcoin/node_modules/openzeppelin-solidity/contracts/token/ERC20/ERC20Basic.sol",
     "exportedSymbols": {
       "ERC20Basic": [
         891
@@ -862,5 +862,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.1",
-  "updatedAt": "2018-09-04T18:43:33.288Z"
+  "updatedAt": "2018-09-04T22:48:29.948Z"
 }
