@@ -6,7 +6,7 @@ import truffleContract from "truffle-contract";
 import "./App.css";
 
 class App extends Component {
-  state = { name: '', web3: null, accounts: null, contract: null };
+  state = {events:[], name: '', web3: null, accounts: null, contract: null };
 
   constructor(props)  {
     super(props);
@@ -14,6 +14,7 @@ class App extends Component {
     this.setAmount = this.setAmount.bind(this);
     this.setReceiver = this.setReceiver.bind(this);
   }
+
   componentDidMount = async () => {
     try {
       // Get network provider and web3 instance.
@@ -29,6 +30,17 @@ class App extends Component {
 
       // Get the value from the contract to prove it worked.
       const contractName = await instance.name();
+
+      const transferEvent = instance.Transfer();
+
+      transferEvent.watch((error, result)=> {
+        if(error){
+          alert(`The contract explode because of your transaction. Thank you. Error: ${error}`);
+        } else {
+          this.addEvent(result);
+          alert(`${result.args.value} Chivilcoin sent from ${result.args.from} to ${result.args.to}`);
+        }
+      })
 
       const address = accounts[0];
       // Set web3, accounts, and contract to the state, and then proceed with an
@@ -48,6 +60,10 @@ class App extends Component {
     this.setState({amount});
   }
 
+  addEvent = async(event)=> {
+    const events = this.state.events.concat(event);
+    this.setState({events});
+  }
 
   setReceiver = async (event) => {
     const receiver =  event.target.value;
@@ -64,12 +80,13 @@ class App extends Component {
   }
 
   sendChivilcoin = async () => {
-    const {contract, receiver, amount } = this.state;
+    const {contract, receiver, address, amount } = this.state;
 
-    contract.transfer(receiver, amount);
+    contract.transfer(receiver, amount, {from:address});
   }
 
   render() {
+    const {events} = this.state;
     if (!this.state.web3) {
       return <div>Loading Web3, accounts, and contract...</div>;
     }
@@ -91,12 +108,24 @@ class App extends Component {
         <div className='sendPanel'>
           <div className='sendInputs'>
             <h3>Receiver</h3>
-            <input type='text' onChange={ this.setReceiver } value={this.state.receiver}/>
+            <input type='text' onChange={this.setReceiver} value={this.state.receiver}/>
             <h3>Amount</h3>
             <input type='number' onChange={ this.setAmount } value={this.state.amount}/>
             <button onClick={this.sendChivilcoin}> Send </button>
           </div>
         </div>
+        <div className='txHistoryPanel'>
+            <h1>Tx History</h1>
+            {
+                events.map(function(event) {
+                  return (
+                    <li>
+                      <a>{`${event.args.value} Chivilcoin sent from ${event.args.from} to ${event.args.to}`}</a>
+                    </li>
+                  );
+                })
+            }
+          </div>
       </div>
     );
   }

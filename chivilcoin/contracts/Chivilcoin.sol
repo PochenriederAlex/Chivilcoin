@@ -2,7 +2,6 @@ pragma solidity ^0.4.24;
 
 import '../node_modules/openzeppelin-solidity/contracts/access/Whitelist.sol';
 import '../node_modules/openzeppelin-solidity/contracts/token/ERC20/BasicToken.sol';
-import '../node_modules/openzeppelin-solidity/contracts/token/ERC20/DetailedERC20.sol';
 
 // This is just a simple example of a coin-like contract.
 // It is not standards compatible and cannot be expected to talk to other
