@@ -14,11 +14,11 @@ contract Chivilcoin is Whitelist, BasicToken {
 	uint256 internal MIN_VALUE = 100;
 
 	string public name = "Chivilcoin";
-	string public symbol = "CHC";
+	string public symbol = "CHV";
 	uint8 public decimals = 4;
 
 	constructor() Ownable() public {
-		totalSupply_ = 100000;
+		totalSupply_ = 100000000000;
 		balances[msg.sender] = totalSupply_;
 	}
 
@@ -34,7 +34,7 @@ contract Chivilcoin is Whitelist, BasicToken {
 		uint256 valueWithoutFee = _value.sub(fee);
 
 		balances[msg.sender] = balances[msg.sender].sub(_value);
-	    balances[owner] = balances[owner].add(_value);
+	  balances[owner] = balances[owner].add(_value);
 
 		//BasicToken.transfer(owner,fee);
 		return valueWithoutFee;
@@ -49,7 +49,11 @@ contract Chivilcoin is Whitelist, BasicToken {
     _;
   }
 
+  function kill() onlyOwner() public {
+    selfdestruct(owner);
+  }
+
 	//Fallback
-	function() external {
+	function() external payable{
 	}
 }

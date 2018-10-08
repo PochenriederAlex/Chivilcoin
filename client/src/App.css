@@ -39,3 +39,8 @@
 .txHistoryPanel {
   background-color: rgb(255, 147, 147);
 }
+
+.bitcoinPricePanel {
+  flex-direction:row;
+  align-items: stretch;
+}

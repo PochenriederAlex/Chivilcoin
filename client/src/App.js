@@ -21,39 +21,18 @@ class App extends Component {
       const web3 = await getWeb3();
 
       // Use web3 to get the user's accounts.
-      const accounts = await web3.eth.getAccounts();
+      const accounts = {};
+      const address = "ADDRESS";
 
       // Get the contract instance.
       const Contract = truffleContract(ChivilcoinContract);
       Contract.setProvider(web3.currentProvider);
       const instance = await Contract.deployed();
 
-      // Get the value from the contract to prove it worked.
-      const contractName = await instance.name();
+      // Get contract name
+      const contractName = ''; //Get contract Name
 
-      const allTransferEvent = instance.Transfer({},{ fromBlock: 0, toBlock: 'latest' });
 
-      allTransferEvent.get((error, events) => {
-        this.setState({events});
-      });
-
-      const transferEvent = instance.Transfer();
-
-      transferEvent.watch((error, result)=> {
-        if(error){
-          alert(`The contract explode because of your transaction. Thank you. Error: ${error}`);
-        } else {
-          alert(`${result.args.value} Chivilcoin sent from ${result.args.from} to ${result.args.to}`);
-          this.addEvent(result);
-        }
-      })
-
-      const address = accounts[0];
-
-      web3.eth.getBalance(accounts[0]).then((balance)=> {
-        const ethBalance = web3.utils.fromWei(balance, "ether");
-        this.setState({ethBalance});
-      })
       // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.
       this.setState({address,web3, accounts, contract: instance, contractName } , ()=> this.getBalance());
@@ -82,18 +61,16 @@ class App extends Component {
   }
 
   getBalance = async () => {
-    const {address, contract } = this.state;
 
-    contract.balanceOf(address).then((numberBalance) => {
-      const balance = numberBalance.div(10000).toString();
-      this.setState({balance});
-    });
   }
 
   sendChivilcoin = async () => {
     const {contract, receiver, address, amount } = this.state;
 
-    contract.transfer(receiver, amount, {from:address});
+  }
+
+  updatePrice = async () => {
+    const {contract, receiver, address, amount } = this.state;
   }
 
   render() {
@@ -113,8 +90,12 @@ class App extends Component {
           </p>
         </div>
         <div>
+          <div className='btcPricePanel'>
+            <div> BTC price: {this.state.btcPrice}</div>
+            <button onClick={this.updatePrice}> Update </button>
+          </div>
           <p>Your address: {this.state.address}</p>
-          <div>Your CHC balance: {this.state.balance}</div>
+          <div>Your CHV balance: {this.state.balance}</div>
           <div>Your ETH balance: {this.state.ethBalance}</div>
         </div>
         <div className='sendPanel'>
